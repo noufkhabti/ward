@@ -5,433 +5,354 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>مترجم الإشارات إلى جمل عربية</title>
   <style>
-    :root {
-      --bg1: #f7fbff;
-      --bg2: #eef5ff;
-      --card: rgba(255,255,255,0.82);
-      --text: #12314c;
-      --muted: #5d7388;
-      --line: rgba(18,49,76,0.12);
-      --accent: #1b74d8;
-      --accent2: #60c8ff;
-      --good: #11875d;
-      --warn: #c98012;
-      --danger: #d14c5c;
-      --shadow: 0 18px 50px rgba(17, 61, 98, 0.12);
-      --radius: 24px;
+    :root{
+      --bg1:#eef4ff;
+      --bg2:#f9fbff;
+      --card:#ffffffcc;
+      --primary:#1e4ed8;
+      --primary-2:#2563eb;
+      --text:#16325c;
+      --muted:#5f6f8a;
+      --ok:#16a34a;
+      --warn:#f59e0b;
+      --danger:#dc2626;
+      --border:#dbe7ff;
+      --shadow:0 10px 30px rgba(30, 78, 216, .12);
+      --radius:22px;
     }
 
-    * { box-sizing: border-box; }
+    *{box-sizing:border-box}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
-      color: var(--text);
+    body{
+      margin:0;
+      font-family: "Tahoma", "Arial", sans-serif;
+      color:var(--text);
       background:
-        radial-gradient(circle at top right, rgba(96,200,255,0.16), transparent 25%),
-        radial-gradient(circle at bottom left, rgba(27,116,216,0.12), transparent 28%),
+        radial-gradient(circle at top right, #dbeafe 0%, transparent 35%),
+        radial-gradient(circle at bottom left, #e0e7ff 0%, transparent 35%),
         linear-gradient(135deg, var(--bg1), var(--bg2));
-      padding: 20px;
+      min-height:100vh;
+      padding:20px;
     }
 
-    .app {
-      width: min(1320px, 100%);
-      margin: 0 auto;
-      display: grid;
-      gap: 20px;
+    .container{
+      max-width:1200px;
+      margin:0 auto;
     }
 
-    .hero, .panel, .small-card {
-      background: var(--card);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
+    .hero{
+      text-align:center;
+      margin-bottom:20px;
     }
 
-    .hero {
-      padding: 26px;
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 18px;
-      align-items: center;
+    .hero h1{
+      margin:0 0 10px;
+      font-size:clamp(26px, 4vw, 40px);
+      color:var(--text);
     }
 
-    .title {
-      font-size: clamp(28px, 4vw, 46px);
-      margin: 0 0 12px;
-      line-height: 1.2;
+    .hero p{
+      margin:0;
+      color:var(--muted);
+      font-size:16px;
+      line-height:1.8;
     }
 
-    .subtitle {
-      margin: 0;
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.9;
+    .grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:18px;
     }
 
-    .badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(8px);
+      overflow:hidden;
     }
 
-    .badge {
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(27,116,216,0.08);
-      color: var(--text);
-      border: 1px solid rgba(27,116,216,0.12);
-      font-size: 14px;
-      font-weight: 700;
+    .card-header{
+      padding:18px 20px;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
     }
 
-    .hero-visual {
-      min-height: 190px;
-      border-radius: 22px;
-      background:
-        linear-gradient(135deg, rgba(27,116,216,0.16), rgba(96,200,255,0.12)),
-        white;
-      border: 1px solid var(--line);
-      display: grid;
-      place-items: center;
-      padding: 18px;
-      text-align: center;
+    .card-header h2{
+      margin:0;
+      font-size:20px;
     }
 
-    .hero-visual .icon {
-      font-size: 60px;
-      margin-bottom: 10px;
+    .card-body{
+      padding:18px;
     }
 
-    .main-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 20px;
-    }
-
-    .panel { padding: 18px; }
-    .panel h2 {
-      margin: 0 0 14px;
-      font-size: 22px;
-    }
-
-    .camera-wrap {
-      position: relative;
-      overflow: hidden;
-      border-radius: 22px;
-      border: 1px solid var(--line);
-      background: #09131d;
-      min-height: 320px;
+    .video-wrap{
+      position:relative;
+      border-radius:18px;
+      overflow:hidden;
+      background:#0f172a;
       aspect-ratio: 16 / 10;
+      border:1px solid #cfe0ff;
     }
 
-    video, canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 22px;
+    video, canvas{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
     }
 
-    video { transform: scaleX(-1); }
-    canvas { pointer-events: none; transform: scaleX(-1); }
-
-    .overlay-note {
-      position: absolute;
-      left: 14px;
-      bottom: 14px;
-      z-index: 3;
-      background: rgba(9, 19, 29, 0.55);
-      color: #fff;
-      padding: 10px 14px;
-      border-radius: 14px;
-      font-size: 13px;
-      backdrop-filter: blur(10px);
-      max-width: calc(100% - 28px);
-      line-height: 1.7;
+    canvas{
+      pointer-events:none;
     }
 
-    .toolbar, .toolbar-2 {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 16px;
+    .status-bar{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
     }
 
-    button {
-      border: none;
-      cursor: pointer;
-      border-radius: 14px;
-      padding: 14px 18px;
-      font-size: 15px;
-      font-weight: 800;
-      transition: 0.22s ease;
+    .pill{
+      border-radius:999px;
+      padding:10px 14px;
+      font-size:14px;
+      font-weight:700;
+      background:#f8fbff;
+      border:1px solid var(--border);
+      color:var(--text);
     }
 
-    .primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff;
-      box-shadow: 0 10px 25px rgba(27,116,216,0.25);
+    .pill.ok{ color:var(--ok); border-color:#b7ebc7; background:#f0fdf4; }
+    .pill.warn{ color:var(--warn); border-color:#fde68a; background:#fffbeb; }
+    .pill.danger{ color:var(--danger); border-color:#fecaca; background:#fef2f2; }
+
+    .controls{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:16px;
     }
 
-    .secondary {
-      background: white;
-      border: 1px solid var(--line);
-      color: var(--text);
+    button{
+      border:none;
+      border-radius:14px;
+      padding:12px 16px;
+      font-size:15px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.2s ease;
     }
 
-    .danger {
-      background: linear-gradient(135deg, #f16c7c, var(--danger));
-      color: white;
-      box-shadow: 0 10px 25px rgba(209,76,92,0.2);
+    button:hover{ transform:translateY(-1px); }
+    button:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+      transform:none;
     }
 
-    button:hover { transform: translateY(-1px); }
-
-    .side {
-      display: grid;
-      gap: 20px;
+    .btn-primary{
+      background:linear-gradient(135deg, var(--primary), var(--primary-2));
+      color:white;
     }
 
-    .status-box, .output-box, .small-card, .compose-box {
-      padding: 18px;
+    .btn-light{
+      background:white;
+      color:var(--text);
+      border:1px solid var(--border);
     }
 
-    .status-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
-      padding: 12px 14px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.55);
-      border: 1px solid var(--line);
+    .btn-danger{
+      background:#ef4444;
+      color:white;
     }
 
-    .status-chip {
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 800;
+    .result-box{
+      display:grid;
+      gap:14px;
     }
 
-    .status-wait { background: rgba(201,128,18,0.14); color: var(--warn); }
-    .status-live { background: rgba(17,135,93,0.14); color: var(--good); }
-    .status-stop { background: rgba(18,49,76,0.1); color: var(--text); }
-
-    .recognized {
-      font-size: clamp(24px, 3.4vw, 40px);
-      margin: 8px 0 6px;
-      font-weight: 900;
-      line-height: 1.3;
+    .big-result{
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, #ffffff, #f7faff);
+      border-radius:18px;
+      padding:18px;
     }
 
-    .recognized-sub {
-      color: var(--muted);
-      margin: 0;
-      line-height: 1.8;
+    .label{
+      color:var(--muted);
+      font-size:14px;
+      margin-bottom:8px;
     }
 
-    .word-chip-wrap, .history {
-      margin-top: 16px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+    .value{
+      font-size:28px;
+      font-weight:800;
+      line-height:1.4;
     }
 
-    .history-item, .word-chip {
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(27,116,216,0.08);
-      border: 1px solid rgba(27,116,216,0.12);
-      font-size: 14px;
-      font-weight: 800;
+    .sub{
+      margin-top:8px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.8;
     }
 
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 12px;
+    textarea{
+      width:100%;
+      min-height:160px;
+      resize:vertical;
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:14px;
+      font-size:16px;
+      font-family:inherit;
+      outline:none;
+      color:var(--text);
+      background:#ffffff;
     }
 
-    .gesture-label {
-      font-size: 18px;
-      font-weight: 900;
-      margin-bottom: 6px;
+    .mini-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
     }
 
-    .gesture-map {
-      color: var(--muted);
-      line-height: 1.8;
-      font-size: 14px;
+    .help-list{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:10px;
     }
 
-    textarea {
-      width: 100%;
-      min-height: 130px;
-      resize: vertical;
-      border-radius: 18px;
-      border: 1px solid var(--line);
-      padding: 16px;
-      font-size: 18px;
-      line-height: 1.9;
-      font-family: inherit;
-      color: var(--text);
-      background: rgba(255,255,255,0.88);
+    .help-item{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:12px;
+      font-size:14px;
+      line-height:1.7;
     }
 
-    .footer-note {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.8;
-      margin-top: 8px;
+    .help-item b{
+      display:block;
+      margin-bottom:4px;
+      color:var(--primary);
     }
 
-    .small-muted {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.8;
-      margin-top: 10px;
+    .footer-note{
+      margin-top:12px;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.8;
     }
 
-    @media (max-width: 980px) {
-      .hero, .main-grid {
-        grid-template-columns: 1fr;
+    @media (max-width: 900px){
+      .grid{
+        grid-template-columns:1fr;
       }
-      .cards-grid {
-        grid-template-columns: 1fr;
+      .mini-grid,
+      .help-list{
+        grid-template-columns:1fr;
       }
     }
   </style>
 </head>
 <body>
-  <div class="app">
-    <section class="hero">
-      <div>
-        <h1 class="title">مترجم الإشارات إلى جمل عربية ذكية</h1>
-        <p class="subtitle">
-          نسخة متقدمة بالعربي تفتح الكاميرا، تتعرف على الإشارات، تحولها إلى كلمات وجمل جاهزة، وتجمع النص داخل مربع كتابة مع نطق صوتي عربي.
-        </p>
-        <div class="badges">
-          <div class="badge">كاميرا مباشرة</div>
-          <div class="badge">جمل جاهزة</div>
-          <div class="badge">تجميع تلقائي للنص</div>
-          <div class="badge">نطق صوتي عربي</div>
-          <div class="badge">مناسبة للآيباد</div>
+  <div class="container">
+    <div class="hero">
+      <h1>مترجم الإشارات إلى جمل عربية ذكية</h1>
+      <p>
+        صفحة عربية تفتح الكاميرا، تتعرف على إشارات اليد، ثم تحوّلها إلى كلمات وعبارات مع تجميع النص والنطق الصوتي.
+      </p>
+    </div>
+
+    <div class="grid">
+      <!-- العمود الأيسر -->
+      <section class="card">
+        <div class="card-header">
+          <h2>الكاميرا والتعرف</h2>
+          <div id="statusPill" class="pill warn">بانتظار التشغيل</div>
         </div>
+
+        <div class="card-body">
+          <div class="video-wrap">
+            <video id="video" autoplay playsinline muted></video>
+            <canvas id="canvas"></canvas>
+          </div>
+
+          <div class="status-bar">
+            <div id="cameraPill" class="pill">الكاميرا: غير مفعلة</div>
+            <div id="gesturePill" class="pill">الإشارة: —</div>
+            <div id="confidencePill" class="pill">الثقة: —</div>
+          </div>
+
+          <div class="controls">
+            <button id="startBtn" class="btn-primary">تشغيل الكاميرا</button>
+            <button id="stopBtn" class="btn-danger" disabled>إيقاف الكاميرا</button>
+            <button id="speakCurrentBtn" class="btn-light">قراءة العبارة الحالية</button>
+          </div>
+
+          <div class="footer-note">
+            إذا لم تعمل الكاميرا، تأكدي من السماح للمتصفح باستخدامها، ويفضّل تشغيل الصفحة عبر GitHub Pages أو أي رابط HTTPS.
+          </div>
+        </div>
+      </section>
+
+      <!-- العمود الأيمن -->
+      <section class="card">
+        <div class="card-header">
+          <h2>النتائج والنص</h2>
+        </div>
+
+        <div class="card-body result-box">
+          <div class="big-result">
+            <div class="label">آخر عبارة مكتشفة</div>
+            <div id="recognizedText" class="value">بانتظار الإشارة…</div>
+            <div id="recognizedSub" class="sub">ارفعي يدك أمام الكاميرا بعد التشغيل.</div>
+          </div>
+
+          <div class="mini-grid">
+            <button id="addWordBtn" class="btn-light">إضافة الكلمة الحالية</button>
+            <button id="addSentenceBtn" class="btn-primary">إضافة العبارة الحالية</button>
+          </div>
+
+          <div>
+            <div class="label">النص المجمع</div>
+            <textarea id="textBox" placeholder="سيظهر هنا النص الذي يتم تجميعه..."></textarea>
+          </div>
+
+          <div class="mini-grid">
+            <button id="speakAllBtn" class="btn-light">قراءة النص كاملًا</button>
+            <button id="clearTextBtn" class="btn-danger">مسح النص</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:18px;">
+      <div class="card-header">
+        <h2>الإشارات المدعومة حاليًا</h2>
       </div>
-      <div class="hero-visual">
-        <div>
-          <div class="icon">🧠🤟</div>
-          <strong style="font-size:22px; display:block; margin-bottom:8px;">من الإشارة إلى عبارة مفهومة</strong>
-          <div style="color: var(--muted); line-height:1.8;">
-            مناسبة كبروتوتايب تعليمي أو عرض تحكيمي أولي لمشروع الترجمة من لغة الإشارة إلى نص عربي.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="main-grid">
-      <div class="panel">
-        <h2>الكاميرا المباشرة</h2>
-        <div class="camera-wrap">
-          <video id="video" autoplay playsinline muted></video>
-          <canvas id="canvas"></canvas>
-          <div class="overlay-note">
-            وجهي يدك نحو الكاميرا مع إضاءة جيدة. عند ثبات الإشارة ستظهر كلمة، ثم تُحوَّل إلى عبارة مناسبة أو جملة مركبة.
-          </div>
+      <div class="card-body">
+        <div class="help-list">
+          <div class="help-item"><b>👍 Thumb Up</b> أحسنت / ممتاز</div>
+          <div class="help-item"><b>☝️ Pointing Up</b> انتبه</div>
+          <div class="help-item"><b>✋ Open Palm</b> توقف</div>
+          <div class="help-item"><b>✌️ Victory</b> سلام / مرحبًا</div>
+          <div class="help-item"><b>✊ Closed Fist</b> جاهز</div>
+          <div class="help-item"><b>🤟 ILoveYou</b> أحبك / أقدّرك</div>
         </div>
 
-        <div class="toolbar">
-          <button class="primary" id="startBtn">تشغيل الكاميرا</button>
-          <button class="secondary" id="stopBtn">إيقاف الكاميرا</button>
-          <button class="secondary" id="addWordBtn">إضافة الكلمة الحالية</button>
-          <button class="primary" id="addSentenceBtn">إضافة العبارة الحالية</button>
-        </div>
-
-        <div class="toolbar-2">
-          <button class="secondary" id="speakCurrentBtn">نطق العبارة الحالية</button>
-          <button class="secondary" id="speakAllBtn">قراءة النص الكامل</button>
-          <button class="secondary" id="clearWordsBtn">مسح الكلمات</button>
-          <button class="danger" id="clearAllBtn">مسح الكل</button>
-        </div>
-
-        <p class="footer-note">
-          ملاحظة: إذا لم تعمل الكاميرا عند فتح الملف مباشرة، شغليه من خلال <strong>localhost</strong> أو ارفعيه على <strong>GitHub Pages</strong>.
-        </p>
-      </div>
-
-      <div class="side">
-        <div class="panel status-box">
-          <h2>الحالة</h2>
-          <div class="status-row">
-            <span>حالة النظام</span>
-            <span id="statusChip" class="status-chip status-wait">بانتظار التشغيل</span>
-          </div>
-          <div class="status-row">
-            <span>آخر ثقة</span>
-            <span id="confidenceValue">0%</span>
-          </div>
-          <div class="status-row">
-            <span>آخر كلمة</span>
-            <span id="currentWord">—</span>
-          </div>
-        </div>
-
-        <div class="panel output-box">
-          <h2>الناتج الحالي</h2>
-          <div id="recognizedText" class="recognized">—</div>
-          <p id="recognizedSub" class="recognized-sub">بعد تشغيل الكاميرا وظهور الإشارة، ستظهر الكلمة والعبارة هنا.</p>
-          <div id="wordChips" class="word-chip-wrap"></div>
-          <div id="history" class="history"></div>
-        </div>
-
-        <div class="panel compose-box">
-          <h2>مربع تكوين النص</h2>
-          <textarea id="sentenceBox" placeholder="سيتم تجميع الكلمات أو العبارات هنا..."></textarea>
-          <div class="small-muted">
-            يمكنكِ إضافة الكلمة الحالية أو العبارة الحالية، ثم قراءة النص كاملًا بصوت عربي.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="panel">
-      <h2>الإشارات المدعومة والعبارات المرتبطة بها</h2>
-      <div class="cards-grid">
-        <div class="small-card">
-          <div class="gesture-label">👍 الإبهام للأعلى</div>
-          <div class="gesture-map">الكلمة: <strong>ممتاز</strong><br>العبارة: <strong>أحسنت! عمل رائع 👏</strong></div>
-        </div>
-        <div class="small-card">
-          <div class="gesture-label">☝️ الإشارة للأعلى</div>
-          <div class="gesture-map">الكلمة: <strong>انتباه</strong><br>العبارة: <strong>انتبه! هناك شيء مهم ☝️</strong></div>
-        </div>
-        <div class="small-card">
-          <div class="gesture-label">✋ اليد المفتوحة</div>
-          <div class="gesture-map">الكلمة: <strong>توقف</strong><br>العبارة: <strong>توقف من فضلك ✋</strong></div>
-        </div>
-        <div class="small-card">
-          <div class="gesture-label">✌️ النصر</div>
-          <div class="gesture-map">الكلمة: <strong>سلام</strong><br>العبارة: <strong>مرحبًا! سعيد برؤيتك 😊</strong></div>
-        </div>
-        <div class="small-card">
-          <div class="gesture-label">✊ القبضة</div>
-          <div class="gesture-map">الكلمة: <strong>جاهز</strong><br>العبارة: <strong>أنا جاهز 💪</strong></div>
-        </div>
-        <div class="small-card">
-          <div class="gesture-label">جمل مركبة</div>
-          <div class="gesture-map">
-            ممتاز + سلام = <strong>رائع! سعيد بلقائك 👏😊</strong><br>
-            توقف + انتباه = <strong>توقف وانتبه ⚠️</strong><br>
-            جاهز + ممتاز = <strong>أنا جاهز والنتيجة ممتازة 💪👏</strong>
-          </div>
+        <div class="footer-note">
+          يمكنك لاحقًا استبدال العبارات الحالية بعبارات تعليمية أو تواصلية تناسب مشروعك.
         </div>
       </div>
     </section>
@@ -440,13 +361,21 @@
   <script type="module">
     import {
       FilesetResolver,
-      GestureRecognizer,
-      DrawingUtils
+      GestureRecognizer
     } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/+esm";
 
     const video = document.getElementById("video");
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
+
+    const statusPill = document.getElementById("statusPill");
+    const cameraPill = document.getElementById("cameraPill");
+    const gesturePill = document.getElementById("gesturePill");
+    const confidencePill = document.getElementById("confidencePill");
+
+    const recognizedText = document.getElementById("recognizedText");
+    const recognizedSub = document.getElementById("recognizedSub");
+    const textBox = document.getElementById("textBox");
 
     const startBtn = document.getElementById("startBtn");
     const stopBtn = document.getElementById("stopBtn");
@@ -454,123 +383,81 @@
     const addSentenceBtn = document.getElementById("addSentenceBtn");
     const speakCurrentBtn = document.getElementById("speakCurrentBtn");
     const speakAllBtn = document.getElementById("speakAllBtn");
-    const clearWordsBtn = document.getElementById("clearWordsBtn");
-    const clearAllBtn = document.getElementById("clearAllBtn");
+    const clearTextBtn = document.getElementById("clearTextBtn");
 
-    const recognizedText = document.getElementById("recognizedText");
-    const recognizedSub = document.getElementById("recognizedSub");
-    const historyEl = document.getElementById("history");
-    const wordChipsEl = document.getElementById("wordChips");
-    const confidenceValue = document.getElementById("confidenceValue");
-    const statusChip = document.getElementById("statusChip");
-    const currentWordEl = document.getElementById("currentWord");
-    const sentenceBox = document.getElementById("sentenceBox");
-
-    let gestureRecognizer = null;
-    let animationId = null;
+    let recognizer = null;
     let stream = null;
+    let running = false;
     let lastVideoTime = -1;
-    let lastStableGesture = "";
-    let gestureHoldCount = 0;
-    let recognitionHistory = [];
-    let wordHistory = [];
-    let lastAcceptedGesture = "";
+    let animationId = null;
+
+    let currentGestureName = "";
     let currentWord = "";
     let currentSentence = "";
+    let currentConfidence = 0;
+
+    let gestureHistory = [];
+    let lastSpokenText = "";
+    let lastStableGesture = "";
+    let stableCount = 0;
 
     const gestureMap = {
-      Thumb_Up: "ممتاز",
-      Pointing_Up: "انتباه",
-      Open_Palm: "توقف",
-      Victory: "سلام",
-      Closed_Fist: "جاهز"
+      Thumb_Up: {
+        word: "ممتاز",
+        sentence: "أحسنت! عمل رائع 👏"
+      },
+      Pointing_Up: {
+        word: "انتباه",
+        sentence: "انتبه! هناك شيء مهم ☝️"
+      },
+      Open_Palm: {
+        word: "توقف",
+        sentence: "توقف من فضلك ✋"
+      },
+      Victory: {
+        word: "سلام",
+        sentence: "مرحبًا! سعيد برؤيتك 😊"
+      },
+      Closed_Fist: {
+        word: "جاهز",
+        sentence: "أنا جاهز 💪"
+      },
+      ILoveYou: {
+        word: "أقدّرك",
+        sentence: "أقدّرك كثيرًا 🤍"
+      }
     };
 
-    const gestureToSentence = {
-      Thumb_Up: "أحسنت! عمل رائع 👏",
-      Pointing_Up: "انتبه! هناك شيء مهم ☝️",
-      Open_Palm: "توقف من فضلك ✋",
-      Victory: "مرحبًا! سعيد برؤيتك 😊",
-      Closed_Fist: "أنا جاهز 💪"
+    const comboMap = {
+      "Thumb_Up|Victory": "رائع! سعيد بلقائك 👏😊",
+      "Victory|Thumb_Up": "مرحبًا، رائع أن أراك 👋",
+      "Open_Palm|Pointing_Up": "توقف وانتبه ⚠️",
+      "Pointing_Up|Thumb_Up": "أحسنت، انتبه للتفاصيل 🌟",
+      "Closed_Fist|Thumb_Up": "أنا جاهز والنتيجة ممتازة 💪",
+      "ILoveYou|Victory": "أهلاً، أقدّرك جدًا 🤍"
     };
 
-    function setStatus(text, mode) {
-      statusChip.textContent = text;
-      statusChip.className = "status-chip";
-      if (mode === "live") statusChip.classList.add("status-live");
-      else if (mode === "stop") statusChip.classList.add("status-stop");
-      else statusChip.classList.add("status-wait");
+    function setMainStatus(text, type = "warn") {
+      statusPill.textContent = text;
+      statusPill.className = `pill ${type}`;
     }
 
-    function renderRecognitionHistory() {
-      historyEl.innerHTML = "";
-      recognitionHistory.slice(-8).forEach((item) => {
-        const chip = document.createElement("div");
-        chip.className = "history-item";
-        chip.textContent = item;
-        historyEl.appendChild(chip);
-      });
+    function setCameraStatus(text) {
+      cameraPill.textContent = text;
     }
 
-    function renderWordHistory() {
-      wordChipsEl.innerHTML = "";
-      wordHistory.slice(-8).forEach((item) => {
-        const chip = document.createElement("div");
-        chip.className = "word-chip";
-        chip.textContent = item;
-        wordChipsEl.appendChild(chip);
-      });
+    function setGestureStatus(text) {
+      gesturePill.textContent = text;
     }
 
-    function combineRecentWords() {
-      const lastTwo = wordHistory.slice(-2);
-      if (lastTwo.length < 2) return "";
-
-      const pair = lastTwo.join("|");
-
-      const combos = {
-        "ممتاز|سلام": "رائع! سعيد بلقائك 👏😊",
-        "سلام|ممتاز": "رائع! سعيد بلقائك 👏😊",
-        "توقف|انتباه": "توقف وانتبه ⚠️",
-        "انتباه|توقف": "توقف وانتبه ⚠️",
-        "جاهز|ممتاز": "أنا جاهز والنتيجة ممتازة 💪👏",
-        "ممتاز|جاهز": "أنا جاهز والنتيجة ممتازة 💪👏",
-        "سلام|جاهز": "مرحبًا، أنا جاهز 😊💪",
-        "جاهز|سلام": "مرحبًا، أنا جاهز 😊💪"
-      };
-
-      return combos[pair] || "";
+    function setConfidenceStatus(text) {
+      confidencePill.textContent = text;
     }
 
-    function updateOutput(word, sentence, confidence) {
-      currentWord = word;
-      currentSentence = sentence;
-      currentWordEl.textContent = word || "—";
-      recognizedText.textContent = sentence || word || "—";
-      recognizedSub.textContent = word
-        ? `الكلمة الحالية: ${word}`
-        : "بعد تشغيل الكاميرا وظهور الإشارة، ستظهر الكلمة والعبارة هنا.";
-      confidenceValue.textContent = `${Math.round(confidence * 100)}%`;
-    }
-
-    function clearOutput() {
-      recognizedText.textContent = "—";
-      recognizedSub.textContent = "بعد تشغيل الكاميرا وظهور الإشارة، ستظهر الكلمة والعبارة هنا.";
-      confidenceValue.textContent = "0%";
-      currentWordEl.textContent = "—";
-      currentWord = "";
-      currentSentence = "";
-      lastStableGesture = "";
-      gestureHoldCount = 0;
-      lastAcceptedGesture = "";
-    }
-
-    function addToSentenceBox(text) {
-      if (!text) return;
-      const clean = text.trim();
-      sentenceBox.value = sentenceBox.value.trim()
-        ? `${sentenceBox.value.trim()} ${clean}`
-        : clean;
+    function resizeCanvas() {
+      const rect = video.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
     }
 
     function speak(text) {
@@ -578,46 +465,98 @@
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "ar-SA";
-      utterance.rate = 0.95;
+      utterance.rate = 1;
       utterance.pitch = 1;
       window.speechSynthesis.speak(utterance);
     }
 
+    function appendToTextBox(text) {
+      if (!text) return;
+      if (textBox.value.trim()) {
+        textBox.value += " " + text;
+      } else {
+        textBox.value = text;
+      }
+    }
+
+    function drawPoints(landmarks) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (const hand of landmarks) {
+        for (const point of hand) {
+          const x = point.x * canvas.width;
+          const y = point.y * canvas.height;
+          ctx.beginPath();
+          ctx.arc(x, y, 4, 0, Math.PI * 2);
+          ctx.fillStyle = "#38bdf8";
+          ctx.fill();
+        }
+      }
+    }
+
+    function updateGestureOutput(gestureName, confidence) {
+      const mapped = gestureMap[gestureName];
+
+      if (!mapped) {
+        currentGestureName = "";
+        currentWord = "";
+        currentSentence = "";
+        currentConfidence = 0;
+
+        recognizedText.textContent = "إشارة غير مدعومة";
+        recognizedSub.textContent = "جرّبي إحدى الإشارات المدعومة أسفل الصفحة.";
+        setGestureStatus("الإشارة: غير مدعومة");
+        setConfidenceStatus("الثقة: —");
+        return;
+      }
+
+      currentGestureName = gestureName;
+      currentWord = mapped.word;
+      currentSentence = mapped.sentence;
+      currentConfidence = confidence;
+
+      gestureHistory.push(gestureName);
+      if (gestureHistory.length > 2) gestureHistory.shift();
+
+      const comboKey = gestureHistory.join("|");
+      const comboSentence = comboMap[comboKey];
+
+      if (comboSentence) {
+        currentSentence = comboSentence;
+      }
+
+      recognizedText.textContent = currentSentence;
+      recognizedSub.textContent = `الكلمة: ${currentWord} — نسبة الثقة: ${Math.round(confidence * 100)}%`;
+      setGestureStatus(`الإشارة: ${currentWord}`);
+      setConfidenceStatus(`الثقة: ${Math.round(confidence * 100)}%`);
+    }
+
     async function createRecognizer() {
+      setMainStatus("جارٍ تحميل النموذج", "warn");
+
       const vision = await FilesetResolver.forVisionTasks(
         "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/wasm"
       );
 
-      gestureRecognizer = await GestureRecognizer.createFromOptions(vision, {
+      recognizer = await GestureRecognizer.createFromOptions(vision, {
         baseOptions: {
           modelAssetPath:
-            "https://storage.googleapis.com/mediapipe-models/gesture_recognizer/gesture_recognizer/float16/1/gesture_recognizer.task",
-          delegate: "GPU"
+            "https://storage.googleapis.com/mediapipe-models/gesture_recognizer/gesture_recognizer/float16/1/gesture_recognizer.task"
         },
         runningMode: "VIDEO",
-        numHands: 1,
-        minHandDetectionConfidence: 0.5,
-        minHandPresenceConfidence: 0.5,
-        minTrackingConfidence: 0.5,
-        cannedGesturesClassifierOptions: {
-          categoryAllowlist: [
-            "Thumb_Up",
-            "Pointing_Up",
-            "Open_Palm",
-            "Victory",
-            "Closed_Fist"
-          ],
-          scoreThreshold: 0.55
-        }
+        numHands: 1
       });
+
+      setMainStatus("النموذج جاهز", "ok");
     }
 
     async function startCamera() {
       try {
         startBtn.disabled = true;
-        setStatus("جاري التحميل...", "wait");
+        recognizedText.textContent = "جارٍ تشغيل الكاميرا…";
+        recognizedSub.textContent = "انتظري قليلًا حتى يكتمل التحميل.";
 
-        if (!gestureRecognizer) {
+        if (!recognizer) {
           await createRecognizer();
         }
 
@@ -631,25 +570,39 @@
         });
 
         video.srcObject = stream;
+
         await video.play();
         resizeCanvas();
+        window.addEventListener("resize", resizeCanvas);
 
-        setStatus("الكاميرا تعمل", "live");
-        recognizedSub.textContent = "ارفعي إحدى الإشارات المدعومة أمام الكاميرا.";
+        running = true;
+        lastVideoTime = -1;
+        stopBtn.disabled = false;
+
+        setMainStatus("الكاميرا تعمل", "ok");
+        setCameraStatus("الكاميرا: مفعلة");
+        recognizedText.textContent = "ارفعي يدك أمام الكاميرا";
+        recognizedSub.textContent = "حاولي جعل اليد واضحة وفي إضاءة جيدة.";
+
         detectLoop();
       } catch (error) {
         console.error(error);
-        setStatus("تعذر التشغيل", "wait");
+        setMainStatus("تعذر التشغيل", "danger");
+        setCameraStatus("الكاميرا: متوقفة");
         recognizedText.textContent = "تعذر فتح الكاميرا";
-        recognizedSub.textContent = "تأكدي من السماح للمتصفح باستخدام الكاميرا، وشغلي الصفحة من localhost أو HTTPS.";
-      } finally {
+        recognizedSub.textContent =
+          "تأكدي من السماح للمتصفح باستخدام الكاميرا، وإغلاق أي برنامج آخر يستخدمها، ثم أعيدي المحاولة.";
         startBtn.disabled = false;
       }
     }
 
     function stopCamera() {
-      if (animationId) cancelAnimationFrame(animationId);
-      animationId = null;
+      running = false;
+
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+      }
 
       if (stream) {
         stream.getTracks().forEach(track => track.stop());
@@ -658,95 +611,59 @@
 
       video.srcObject = null;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      setStatus("متوقف", "stop");
-      clearOutput();
-    }
 
-    function resizeCanvas() {
-      const rect = video.getBoundingClientRect();
-      canvas.width = rect.width;
-      canvas.height = rect.height;
-    }
+      startBtn.disabled = false;
+      stopBtn.disabled = true;
 
-    function drawLandmarks(landmarks) {
-      const drawingUtils = new DrawingUtils(ctx);
-      for (const landmarksSet of landmarks) {
-        drawingUtils.drawConnectors(landmarksSet, GestureRecognizer.HAND_CONNECTIONS, {
-          color: "#60c8ff",
-          lineWidth: 3
-        });
-        drawingUtils.drawLandmarks(landmarksSet, {
-          color: "#1b74d8",
-          radius: 4
-        });
-      }
-    }
+      setMainStatus("تم إيقاف الكاميرا", "warn");
+      setCameraStatus("الكاميرا: غير مفعلة");
+      setGestureStatus("الإشارة: —");
+      setConfidenceStatus("الثقة: —");
 
-    function acceptGesture(rawName, confidence) {
-      const word = gestureMap[rawName];
-      const baseSentence = gestureToSentence[rawName] || word;
-      if (!word) return;
-
-      if (lastAcceptedGesture !== rawName) {
-        wordHistory.push(word);
-        recognitionHistory.push(baseSentence);
-        lastAcceptedGesture = rawName;
-      }
-
-      const comboSentence = combineRecentWords();
-      const finalSentence = comboSentence || baseSentence;
-
-      renderWordHistory();
-      renderRecognitionHistory();
-      updateOutput(word, finalSentence, confidence);
+      recognizedText.textContent = "تم إيقاف الكاميرا";
+      recognizedSub.textContent = "يمكنك تشغيلها مرة أخرى متى شئت.";
     }
 
     function detectLoop() {
-      if (!gestureRecognizer || !video.srcObject) return;
+      if (!running || !recognizer) return;
 
-      resizeCanvas();
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const nowInMs = performance.now();
       if (video.currentTime !== lastVideoTime) {
         lastVideoTime = video.currentTime;
 
-        const results = gestureRecognizer.recognizeForVideo(video, nowInMs);
+        const results = recognizer.recognizeForVideo(video, performance.now());
 
-        if (results.landmarks && results.landmarks.length > 0) {
-          drawLandmarks(results.landmarks);
-        }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        if (results.gestures && results.gestures.length > 0 && results.gestures[0].length > 0) {
-          const topGesture = results.gestures[0][0];
-          const rawName = topGesture.categoryName;
-          const confidence = topGesture.score || 0;
+        if (
+          results &&
+          results.gestures &&
+          results.gestures.length > 0 &&
+          results.gestures[0].length > 0
+        ) {
+          const bestGesture = results.gestures[0][0];
+          const gestureName = bestGesture.categoryName;
+          const confidence = bestGesture.score || 0;
 
-          if (gestureMap[rawName]) {
-            if (rawName === lastStableGesture) {
-              gestureHoldCount += 1;
-            } else {
-              lastStableGesture = rawName;
-              gestureHoldCount = 1;
-            }
+          if (results.landmarks && results.landmarks.length > 0) {
+            drawPoints(results.landmarks);
+          }
 
-            if (gestureHoldCount >= 4) {
-              acceptGesture(rawName, confidence);
-            } else {
-              recognizedText.textContent = "...";
-              recognizedSub.textContent = "تم اكتشاف حركة، جارٍ تثبيتها.";
-              confidenceValue.textContent = `${Math.round(confidence * 100)}%`;
-            }
+          // تثبيت بسيط حتى لا تتغير النتيجة بسرعة
+          if (gestureName === lastStableGesture) {
+            stableCount++;
+          } else {
+            lastStableGesture = gestureName;
+            stableCount = 1;
+          }
+
+          if (stableCount >= 2) {
+            updateGestureOutput(gestureName, confidence);
           }
         } else {
-          lastStableGesture = "";
-          gestureHoldCount = 0;
-          lastAcceptedGesture = "";
-          recognizedText.textContent = currentSentence || "لا توجد إشارة واضحة";
-          recognizedSub.textContent = currentSentence
-            ? `آخر كلمة مقروءة: ${currentWord}`
-            : "ضعي يدك داخل إطار الكاميرا وبإضاءة جيدة.";
-          confidenceValue.textContent = currentSentence ? confidenceValue.textContent : "0%";
+          recognizedText.textContent = "لم يتم اكتشاف إشارة";
+          recognizedSub.textContent = "وجّهي يدك بوضوح أمام الكاميرا.";
+          setGestureStatus("الإشارة: —");
+          setConfidenceStatus("الثقة: —");
         }
       }
 
@@ -757,40 +674,36 @@
     stopBtn.addEventListener("click", stopCamera);
 
     addWordBtn.addEventListener("click", () => {
-      addToSentenceBox(currentWord);
+      if (!currentWord) return;
+      appendToTextBox(currentWord);
     });
 
     addSentenceBtn.addEventListener("click", () => {
-      addToSentenceBox(currentSentence || currentWord);
+      if (!currentSentence) return;
+      appendToTextBox(currentSentence);
     });
 
     speakCurrentBtn.addEventListener("click", () => {
-      speak(currentSentence || currentWord);
+      if (!currentSentence) return;
+      if (lastSpokenText === currentSentence) {
+        window.speechSynthesis.cancel();
+      }
+      speak(currentSentence);
+      lastSpokenText = currentSentence;
     });
 
     speakAllBtn.addEventListener("click", () => {
-      speak(sentenceBox.value);
+      if (!textBox.value.trim()) return;
+      speak(textBox.value.trim());
     });
 
-    clearWordsBtn.addEventListener("click", () => {
-      wordHistory = [];
-      recognitionHistory = [];
-      lastAcceptedGesture = "";
-      renderWordHistory();
-      renderRecognitionHistory();
+    clearTextBtn.addEventListener("click", () => {
+      textBox.value = "";
     });
 
-    clearAllBtn.addEventListener("click", () => {
-      wordHistory = [];
-      recognitionHistory = [];
-      sentenceBox.value = "";
-      lastAcceptedGesture = "";
-      renderWordHistory();
-      renderRecognitionHistory();
-      clearOutput();
+    window.addEventListener("beforeunload", () => {
+      stopCamera();
     });
-
-    window.addEventListener("resize", resizeCanvas);
   </script>
 </body>
 </html>
