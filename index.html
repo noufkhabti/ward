@@ -3,359 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>مترجم الإشارات إلى جمل عربية</title>
+  <title>اختبار التعرف على الإشارة</title>
   <style>
-    :root{
-      --bg1:#eef4ff;
-      --bg2:#f9fbff;
-      --card:#ffffffcc;
-      --primary:#1e4ed8;
-      --primary-2:#2563eb;
-      --text:#16325c;
-      --muted:#5f6f8a;
-      --ok:#16a34a;
-      --warn:#f59e0b;
-      --danger:#dc2626;
-      --border:#dbe7ff;
-      --shadow:0 10px 30px rgba(30, 78, 216, .12);
-      --radius:22px;
-    }
-
-    *{box-sizing:border-box}
-
     body{
-      margin:0;
-      font-family: "Tahoma", "Arial", sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(circle at top right, #dbeafe 0%, transparent 35%),
-        radial-gradient(circle at bottom left, #e0e7ff 0%, transparent 35%),
-        linear-gradient(135deg, var(--bg1), var(--bg2));
-      min-height:100vh;
-      padding:20px;
-    }
-
-    .container{
-      max-width:1200px;
-      margin:0 auto;
-    }
-
-    .hero{
+      font-family: Arial, sans-serif;
+      background:#f4f8ff;
       text-align:center;
-      margin-bottom:20px;
+      padding:20px;
+      color:#16325c;
     }
-
-    .hero h1{
-      margin:0 0 10px;
-      font-size:clamp(26px, 4vw, 40px);
-      color:var(--text);
-    }
-
-    .hero p{
-      margin:0;
-      color:var(--muted);
-      font-size:16px;
-      line-height:1.8;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:18px;
-    }
-
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      backdrop-filter: blur(8px);
-      overflow:hidden;
-    }
-
-    .card-header{
-      padding:18px 20px;
-      border-bottom:1px solid var(--border);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    .card-header h2{
-      margin:0;
-      font-size:20px;
-    }
-
-    .card-body{
-      padding:18px;
-    }
-
-    .video-wrap{
-      position:relative;
-      border-radius:18px;
-      overflow:hidden;
-      background:#0f172a;
-      aspect-ratio: 16 / 10;
-      border:1px solid #cfe0ff;
-    }
-
-    video, canvas{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    canvas{
-      pointer-events:none;
-    }
-
-    .status-bar{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:14px;
-    }
-
-    .pill{
-      border-radius:999px;
-      padding:10px 14px;
-      font-size:14px;
-      font-weight:700;
-      background:#f8fbff;
-      border:1px solid var(--border);
-      color:var(--text);
-    }
-
-    .pill.ok{ color:var(--ok); border-color:#b7ebc7; background:#f0fdf4; }
-    .pill.warn{ color:var(--warn); border-color:#fde68a; background:#fffbeb; }
-    .pill.danger{ color:var(--danger); border-color:#fecaca; background:#fef2f2; }
-
-    .controls{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:16px;
-    }
-
-    button{
-      border:none;
-      border-radius:14px;
-      padding:12px 16px;
-      font-size:15px;
-      font-weight:700;
-      cursor:pointer;
-      transition:.2s ease;
-    }
-
-    button:hover{ transform:translateY(-1px); }
-    button:disabled{
-      opacity:.6;
-      cursor:not-allowed;
-      transform:none;
-    }
-
-    .btn-primary{
-      background:linear-gradient(135deg, var(--primary), var(--primary-2));
-      color:white;
-    }
-
-    .btn-light{
+    .box{
+      max-width:900px;
+      margin:auto;
       background:white;
-      color:var(--text);
-      border:1px solid var(--border);
+      padding:20px;
+      border-radius:20px;
+      box-shadow:0 10px 30px rgba(0,0,0,.08);
     }
-
-    .btn-danger{
-      background:#ef4444;
-      color:white;
-    }
-
-    .result-box{
-      display:grid;
-      gap:14px;
-    }
-
-    .big-result{
-      border:1px solid var(--border);
-      background:linear-gradient(180deg, #ffffff, #f7faff);
-      border-radius:18px;
-      padding:18px;
-    }
-
-    .label{
-      color:var(--muted);
-      font-size:14px;
-      margin-bottom:8px;
-    }
-
-    .value{
-      font-size:28px;
-      font-weight:800;
-      line-height:1.4;
-    }
-
-    .sub{
-      margin-top:8px;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.8;
-    }
-
-    textarea{
+    video{
       width:100%;
-      min-height:160px;
-      resize:vertical;
-      border:1px solid var(--border);
+      max-width:700px;
       border-radius:16px;
-      padding:14px;
+      background:black;
+    }
+    button{
+      margin:10px;
+      padding:12px 18px;
+      border:none;
+      border-radius:12px;
+      background:#2563eb;
+      color:white;
       font-size:16px;
-      font-family:inherit;
-      outline:none;
-      color:var(--text);
-      background:#ffffff;
+      cursor:pointer;
     }
-
-    .mini-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
+    #result{
+      margin-top:20px;
+      font-size:28px;
+      font-weight:bold;
     }
-
-    .help-list{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
+    #status{
       margin-top:10px;
-    }
-
-    .help-item{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:12px;
-      font-size:14px;
-      line-height:1.7;
-    }
-
-    .help-item b{
-      display:block;
-      margin-bottom:4px;
-      color:var(--primary);
-    }
-
-    .footer-note{
-      margin-top:12px;
-      font-size:13px;
-      color:var(--muted);
-      line-height:1.8;
-    }
-
-    @media (max-width: 900px){
-      .grid{
-        grid-template-columns:1fr;
-      }
-      .mini-grid,
-      .help-list{
-        grid-template-columns:1fr;
-      }
+      color:#666;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="hero">
-      <h1>مترجم الإشارات إلى جمل عربية ذكية</h1>
-      <p>
-        صفحة عربية تفتح الكاميرا، تتعرف على إشارات اليد، ثم تحوّلها إلى كلمات وعبارات مع تجميع النص والنطق الصوتي.
-      </p>
-    </div>
-
-    <div class="grid">
-      <!-- العمود الأيسر -->
-      <section class="card">
-        <div class="card-header">
-          <h2>الكاميرا والتعرف</h2>
-          <div id="statusPill" class="pill warn">بانتظار التشغيل</div>
-        </div>
-
-        <div class="card-body">
-          <div class="video-wrap">
-            <video id="video" autoplay playsinline muted></video>
-            <canvas id="canvas"></canvas>
-          </div>
-
-          <div class="status-bar">
-            <div id="cameraPill" class="pill">الكاميرا: غير مفعلة</div>
-            <div id="gesturePill" class="pill">الإشارة: —</div>
-            <div id="confidencePill" class="pill">الثقة: —</div>
-          </div>
-
-          <div class="controls">
-            <button id="startBtn" class="btn-primary">تشغيل الكاميرا</button>
-            <button id="stopBtn" class="btn-danger" disabled>إيقاف الكاميرا</button>
-            <button id="speakCurrentBtn" class="btn-light">قراءة العبارة الحالية</button>
-          </div>
-
-          <div class="footer-note">
-            إذا لم تعمل الكاميرا، تأكدي من السماح للمتصفح باستخدامها، ويفضّل تشغيل الصفحة عبر GitHub Pages أو أي رابط HTTPS.
-          </div>
-        </div>
-      </section>
-
-      <!-- العمود الأيمن -->
-      <section class="card">
-        <div class="card-header">
-          <h2>النتائج والنص</h2>
-        </div>
-
-        <div class="card-body result-box">
-          <div class="big-result">
-            <div class="label">آخر عبارة مكتشفة</div>
-            <div id="recognizedText" class="value">بانتظار الإشارة…</div>
-            <div id="recognizedSub" class="sub">ارفعي يدك أمام الكاميرا بعد التشغيل.</div>
-          </div>
-
-          <div class="mini-grid">
-            <button id="addWordBtn" class="btn-light">إضافة الكلمة الحالية</button>
-            <button id="addSentenceBtn" class="btn-primary">إضافة العبارة الحالية</button>
-          </div>
-
-          <div>
-            <div class="label">النص المجمع</div>
-            <textarea id="textBox" placeholder="سيظهر هنا النص الذي يتم تجميعه..."></textarea>
-          </div>
-
-          <div class="mini-grid">
-            <button id="speakAllBtn" class="btn-light">قراءة النص كاملًا</button>
-            <button id="clearTextBtn" class="btn-danger">مسح النص</button>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <section class="card" style="margin-top:18px;">
-      <div class="card-header">
-        <h2>الإشارات المدعومة حاليًا</h2>
-      </div>
-      <div class="card-body">
-        <div class="help-list">
-          <div class="help-item"><b>👍 Thumb Up</b> أحسنت / ممتاز</div>
-          <div class="help-item"><b>☝️ Pointing Up</b> انتبه</div>
-          <div class="help-item"><b>✋ Open Palm</b> توقف</div>
-          <div class="help-item"><b>✌️ Victory</b> سلام / مرحبًا</div>
-          <div class="help-item"><b>✊ Closed Fist</b> جاهز</div>
-          <div class="help-item"><b>🤟 ILoveYou</b> أحبك / أقدّرك</div>
-        </div>
-
-        <div class="footer-note">
-          يمكنك لاحقًا استبدال العبارات الحالية بعبارات تعليمية أو تواصلية تناسب مشروعك.
-        </div>
-      </div>
-    </section>
+  <div class="box">
+    <h1>اختبار التعرف على إشارة اليد</h1>
+    <button id="startBtn">تشغيل الكاميرا والتعرف</button>
+    <video id="video" autoplay playsinline muted></video>
+    <div id="result">بانتظار الإشارة…</div>
+    <div id="status">الحالة: لم يبدأ بعد</div>
   </div>
 
   <script type="module">
@@ -365,175 +63,26 @@
     } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/+esm";
 
     const video = document.getElementById("video");
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-
-    const statusPill = document.getElementById("statusPill");
-    const cameraPill = document.getElementById("cameraPill");
-    const gesturePill = document.getElementById("gesturePill");
-    const confidencePill = document.getElementById("confidencePill");
-
-    const recognizedText = document.getElementById("recognizedText");
-    const recognizedSub = document.getElementById("recognizedSub");
-    const textBox = document.getElementById("textBox");
-
+    const result = document.getElementById("result");
+    const status = document.getElementById("status");
     const startBtn = document.getElementById("startBtn");
-    const stopBtn = document.getElementById("stopBtn");
-    const addWordBtn = document.getElementById("addWordBtn");
-    const addSentenceBtn = document.getElementById("addSentenceBtn");
-    const speakCurrentBtn = document.getElementById("speakCurrentBtn");
-    const speakAllBtn = document.getElementById("speakAllBtn");
-    const clearTextBtn = document.getElementById("clearTextBtn");
 
     let recognizer = null;
     let stream = null;
     let running = false;
     let lastVideoTime = -1;
-    let animationId = null;
 
-    let currentGestureName = "";
-    let currentWord = "";
-    let currentSentence = "";
-    let currentConfidence = 0;
-
-    let gestureHistory = [];
-    let lastSpokenText = "";
-    let lastStableGesture = "";
-    let stableCount = 0;
-
-    const gestureMap = {
-      Thumb_Up: {
-        word: "ممتاز",
-        sentence: "أحسنت! عمل رائع 👏"
-      },
-      Pointing_Up: {
-        word: "انتباه",
-        sentence: "انتبه! هناك شيء مهم ☝️"
-      },
-      Open_Palm: {
-        word: "توقف",
-        sentence: "توقف من فضلك ✋"
-      },
-      Victory: {
-        word: "سلام",
-        sentence: "مرحبًا! سعيد برؤيتك 😊"
-      },
-      Closed_Fist: {
-        word: "جاهز",
-        sentence: "أنا جاهز 💪"
-      },
-      ILoveYou: {
-        word: "أقدّرك",
-        sentence: "أقدّرك كثيرًا 🤍"
-      }
+    const gestureNames = {
+      Thumb_Up: "ممتاز 👍",
+      Pointing_Up: "انتباه ☝️",
+      Open_Palm: "توقف ✋",
+      Victory: "سلام ✌️",
+      Closed_Fist: "جاهز ✊",
+      ILoveYou: "أقدّرك 🤟"
     };
 
-    const comboMap = {
-      "Thumb_Up|Victory": "رائع! سعيد بلقائك 👏😊",
-      "Victory|Thumb_Up": "مرحبًا، رائع أن أراك 👋",
-      "Open_Palm|Pointing_Up": "توقف وانتبه ⚠️",
-      "Pointing_Up|Thumb_Up": "أحسنت، انتبه للتفاصيل 🌟",
-      "Closed_Fist|Thumb_Up": "أنا جاهز والنتيجة ممتازة 💪",
-      "ILoveYou|Victory": "أهلاً، أقدّرك جدًا 🤍"
-    };
-
-    function setMainStatus(text, type = "warn") {
-      statusPill.textContent = text;
-      statusPill.className = `pill ${type}`;
-    }
-
-    function setCameraStatus(text) {
-      cameraPill.textContent = text;
-    }
-
-    function setGestureStatus(text) {
-      gesturePill.textContent = text;
-    }
-
-    function setConfidenceStatus(text) {
-      confidencePill.textContent = text;
-    }
-
-    function resizeCanvas() {
-      const rect = video.getBoundingClientRect();
-      canvas.width = rect.width;
-      canvas.height = rect.height;
-    }
-
-    function speak(text) {
-      if (!text || !("speechSynthesis" in window)) return;
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "ar-SA";
-      utterance.rate = 1;
-      utterance.pitch = 1;
-      window.speechSynthesis.speak(utterance);
-    }
-
-    function appendToTextBox(text) {
-      if (!text) return;
-      if (textBox.value.trim()) {
-        textBox.value += " " + text;
-      } else {
-        textBox.value = text;
-      }
-    }
-
-    function drawPoints(landmarks) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      for (const hand of landmarks) {
-        for (const point of hand) {
-          const x = point.x * canvas.width;
-          const y = point.y * canvas.height;
-          ctx.beginPath();
-          ctx.arc(x, y, 4, 0, Math.PI * 2);
-          ctx.fillStyle = "#38bdf8";
-          ctx.fill();
-        }
-      }
-    }
-
-    function updateGestureOutput(gestureName, confidence) {
-      const mapped = gestureMap[gestureName];
-
-      if (!mapped) {
-        currentGestureName = "";
-        currentWord = "";
-        currentSentence = "";
-        currentConfidence = 0;
-
-        recognizedText.textContent = "إشارة غير مدعومة";
-        recognizedSub.textContent = "جرّبي إحدى الإشارات المدعومة أسفل الصفحة.";
-        setGestureStatus("الإشارة: غير مدعومة");
-        setConfidenceStatus("الثقة: —");
-        return;
-      }
-
-      currentGestureName = gestureName;
-      currentWord = mapped.word;
-      currentSentence = mapped.sentence;
-      currentConfidence = confidence;
-
-      gestureHistory.push(gestureName);
-      if (gestureHistory.length > 2) gestureHistory.shift();
-
-      const comboKey = gestureHistory.join("|");
-      const comboSentence = comboMap[comboKey];
-
-      if (comboSentence) {
-        currentSentence = comboSentence;
-      }
-
-      recognizedText.textContent = currentSentence;
-      recognizedSub.textContent = `الكلمة: ${currentWord} — نسبة الثقة: ${Math.round(confidence * 100)}%`;
-      setGestureStatus(`الإشارة: ${currentWord}`);
-      setConfidenceStatus(`الثقة: ${Math.round(confidence * 100)}%`);
-    }
-
-    async function createRecognizer() {
-      setMainStatus("جارٍ تحميل النموذج", "warn");
-
+    async function initRecognizer() {
+      status.textContent = "الحالة: جارٍ تحميل النموذج...";
       const vision = await FilesetResolver.forVisionTasks(
         "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/wasm"
       );
@@ -547,163 +96,64 @@
         numHands: 1
       });
 
-      setMainStatus("النموذج جاهز", "ok");
+      status.textContent = "الحالة: تم تحميل النموذج بنجاح";
     }
 
-    async function startCamera() {
+    async function startApp() {
       try {
         startBtn.disabled = true;
-        recognizedText.textContent = "جارٍ تشغيل الكاميرا…";
-        recognizedSub.textContent = "انتظري قليلًا حتى يكتمل التحميل.";
 
         if (!recognizer) {
-          await createRecognizer();
+          await initRecognizer();
         }
 
         stream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            facingMode: "user",
-            width: { ideal: 1280 },
-            height: { ideal: 720 }
-          },
+          video: true,
           audio: false
         });
 
         video.srcObject = stream;
-
         await video.play();
-        resizeCanvas();
-        window.addEventListener("resize", resizeCanvas);
 
         running = true;
-        lastVideoTime = -1;
-        stopBtn.disabled = false;
-
-        setMainStatus("الكاميرا تعمل", "ok");
-        setCameraStatus("الكاميرا: مفعلة");
-        recognizedText.textContent = "ارفعي يدك أمام الكاميرا";
-        recognizedSub.textContent = "حاولي جعل اليد واضحة وفي إضاءة جيدة.";
-
+        status.textContent = "الحالة: الكاميرا تعمل، ارفعي يدك أمام العدسة";
         detectLoop();
-      } catch (error) {
-        console.error(error);
-        setMainStatus("تعذر التشغيل", "danger");
-        setCameraStatus("الكاميرا: متوقفة");
-        recognizedText.textContent = "تعذر فتح الكاميرا";
-        recognizedSub.textContent =
-          "تأكدي من السماح للمتصفح باستخدام الكاميرا، وإغلاق أي برنامج آخر يستخدمها، ثم أعيدي المحاولة.";
+      } catch (err) {
+        console.error(err);
+        status.textContent = "الحالة: حدث خطأ - " + err.message;
+        result.textContent = "تعذر بدء التعرف";
         startBtn.disabled = false;
       }
     }
 
-    function stopCamera() {
-      running = false;
-
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-      }
-
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-        stream = null;
-      }
-
-      video.srcObject = null;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      startBtn.disabled = false;
-      stopBtn.disabled = true;
-
-      setMainStatus("تم إيقاف الكاميرا", "warn");
-      setCameraStatus("الكاميرا: غير مفعلة");
-      setGestureStatus("الإشارة: —");
-      setConfidenceStatus("الثقة: —");
-
-      recognizedText.textContent = "تم إيقاف الكاميرا";
-      recognizedSub.textContent = "يمكنك تشغيلها مرة أخرى متى شئت.";
-    }
-
     function detectLoop() {
-      if (!running || !recognizer) return;
+      if (!running) return;
 
       if (video.currentTime !== lastVideoTime) {
         lastVideoTime = video.currentTime;
 
-        const results = recognizer.recognizeForVideo(video, performance.now());
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const recognition = recognizer.recognizeForVideo(video, performance.now());
 
         if (
-          results &&
-          results.gestures &&
-          results.gestures.length > 0 &&
-          results.gestures[0].length > 0
+          recognition.gestures &&
+          recognition.gestures.length > 0 &&
+          recognition.gestures[0].length > 0
         ) {
-          const bestGesture = results.gestures[0][0];
-          const gestureName = bestGesture.categoryName;
-          const confidence = bestGesture.score || 0;
+          const best = recognition.gestures[0][0];
+          const name = best.categoryName;
+          const score = Math.round((best.score || 0) * 100);
 
-          if (results.landmarks && results.landmarks.length > 0) {
-            drawPoints(results.landmarks);
-          }
-
-          // تثبيت بسيط حتى لا تتغير النتيجة بسرعة
-          if (gestureName === lastStableGesture) {
-            stableCount++;
-          } else {
-            lastStableGesture = gestureName;
-            stableCount = 1;
-          }
-
-          if (stableCount >= 2) {
-            updateGestureOutput(gestureName, confidence);
-          }
+          result.textContent = gestureNames[name] || ("إشارة: " + name);
+          status.textContent = "الحالة: تم التعرف بنسبة " + score + "%";
         } else {
-          recognizedText.textContent = "لم يتم اكتشاف إشارة";
-          recognizedSub.textContent = "وجّهي يدك بوضوح أمام الكاميرا.";
-          setGestureStatus("الإشارة: —");
-          setConfidenceStatus("الثقة: —");
+          result.textContent = "لم يتم اكتشاف إشارة";
         }
       }
 
-      animationId = requestAnimationFrame(detectLoop);
+      requestAnimationFrame(detectLoop);
     }
 
-    startBtn.addEventListener("click", startCamera);
-    stopBtn.addEventListener("click", stopCamera);
-
-    addWordBtn.addEventListener("click", () => {
-      if (!currentWord) return;
-      appendToTextBox(currentWord);
-    });
-
-    addSentenceBtn.addEventListener("click", () => {
-      if (!currentSentence) return;
-      appendToTextBox(currentSentence);
-    });
-
-    speakCurrentBtn.addEventListener("click", () => {
-      if (!currentSentence) return;
-      if (lastSpokenText === currentSentence) {
-        window.speechSynthesis.cancel();
-      }
-      speak(currentSentence);
-      lastSpokenText = currentSentence;
-    });
-
-    speakAllBtn.addEventListener("click", () => {
-      if (!textBox.value.trim()) return;
-      speak(textBox.value.trim());
-    });
-
-    clearTextBtn.addEventListener("click", () => {
-      textBox.value = "";
-    });
-
-    window.addEventListener("beforeunload", () => {
-      stopCamera();
-    });
+    startBtn.addEventListener("click", startApp);
   </script>
 </body>
 </html>
