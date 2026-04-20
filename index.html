@@ -1,134 +1,161 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تعرف الإشارة</title>
-
-<style>
-body{
-  font-family:Arial;
-  text-align:center;
-  background:#f3f7ff;
-  padding:20px;
-}
-video{
-  width:100%;
-  max-width:600px;
-  border-radius:15px;
-  background:black;
-}
-button{
-  margin:10px;
-  padding:12px 18px;
-  border:none;
-  border-radius:12px;
-  background:#2563eb;
-  color:white;
-  font-size:16px;
-}
-#result{
-  font-size:28px;
-  margin-top:20px;
-  font-weight:bold;
-}
-#status{
-  margin-top:10px;
-  color:#666;
-}
-</style>
-</head>
-
-<body>
-
-<h2>التعرف على إشارة اليد</h2>
-
-<video id="video" autoplay playsinline muted></video>
-<br>
-<button onclick="startApp()">تشغيل النظام</button>
-
-<div id="result">بانتظار الإشارة...</div>
-<div id="status">الحالة: لم يبدأ</div>
-
-<script type="module">
-import { FilesetResolver, GestureRecognizer }
-from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/+esm";
-
-const video = document.getElementById("video");
-const result = document.getElementById("result");
-const status = document.getElementById("status");
-
-let recognizer;
-let stream;
-let running = false;
-let lastTime = -1;
-
-// ترجمة الإشارات
-const gestures = {
-  Thumb_Up: "👍 ممتاز",
-  Victory: "✌️ سلام",
-  Open_Palm: "✋ توقف",
-  Closed_Fist: "✊ جاهز",
-  Pointing_Up: "☝️ انتبه"
-};
-
-async function startApp(){
-  try{
-    status.textContent = "تحميل النموذج...";
-
-    const vision = await FilesetResolver.forVisionTasks(
-      "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/wasm"
-    );
-
-    recognizer = await GestureRecognizer.createFromOptions(vision, {
-      baseOptions:{
-        modelAssetPath:
-        "https://storage.googleapis.com/mediapipe-models/gesture_recognizer/gesture_recognizer/float16/1/gesture_recognizer.task"
-      },
-      runningMode:"VIDEO",
-      numHands:1
-    });
-
-    status.textContent = "تشغيل الكاميرا...";
-
-    stream = await navigator.mediaDevices.getUserMedia({ video:true });
-    video.srcObject = stream;
-    await video.play();
-
-    running = true;
-    status.textContent = "جاهز - ارفع يدك";
-
-    detect();
-
-  }catch(e){
-    console.error(e);
-    status.textContent = "خطأ: " + e.message;
-  }
-}
-
-function detect(){
-  if(!running) return;
-
-  if(video.currentTime !== lastTime){
-    lastTime = video.currentTime;
-
-    const res = recognizer.recognizeForVideo(video, performance.now());
-
-    if(res.gestures.length > 0){
-      const g = res.gestures[0][0];
-      const name = g.categoryName;
-      const score = Math.round(g.score*100);
-
-      result.textContent = gestures[name] || name;
-      status.textContent = "الثقة: " + score + "%";
-    }else{
-      result.textContent = "لا توجد إشارة";
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>التعرف على إشارة اليد</title>
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      text-align:center;
+      background:#f3f7ff;
+      padding:20px;
+      color:#16325c;
     }
-  }
 
-  requestAnimationFrame(detect);
-}
-</script>
+    .box{
+      max-width:900px;
+      margin:auto;
+      background:white;
+      padding:20px;
+      border-radius:20px;
+      box-shadow:0 10px 25px rgba(0,0,0,.08);
+    }
 
+    video{
+      width:100%;
+      max-width:700px;
+      height:400px;
+      background:black;
+      border-radius:16px;
+      object-fit:cover;
+    }
+
+    button{
+      margin-top:20px;
+      padding:12px 20px;
+      font-size:16px;
+      border:none;
+      border-radius:12px;
+      background:#2563eb;
+      color:white;
+      cursor:pointer;
+    }
+
+    #result{
+      margin-top:20px;
+      font-size:28px;
+      font-weight:bold;
+    }
+
+    #status{
+      margin-top:10px;
+      color:#666;
+      font-size:18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>اختبار التعرف على إشارة اليد</h1>
+
+    <video id="video" autoplay playsinline muted></video>
+    <br>
+
+    <button id="startBtn">تشغيل النظام</button>
+
+    <div id="result">بانتظار الإشارة...</div>
+    <div id="status">الحالة: لم يبدأ</div>
+  </div>
+
+  <script type="module">
+    import { FilesetResolver, GestureRecognizer }
+    from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/+esm";
+
+    const video = document.getElementById("video");
+    const result = document.getElementById("result");
+    const status = document.getElementById("status");
+    const startBtn = document.getElementById("startBtn");
+
+    let recognizer = null;
+    let stream = null;
+    let running = false;
+    let lastTime = -1;
+
+    const gestures = {
+      Thumb_Up: "👍 ممتاز",
+      Victory: "✌️ سلام",
+      Open_Palm: "✋ توقف",
+      Closed_Fist: "✊ جاهز",
+      Pointing_Up: "☝️ انتبه",
+      ILoveYou: "🤟 أقدّرك"
+    };
+
+    async function startApp() {
+      try {
+        startBtn.disabled = true;
+        status.textContent = "الحالة: جارٍ تحميل النموذج...";
+
+        const vision = await FilesetResolver.forVisionTasks(
+          "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/wasm"
+        );
+
+        recognizer = await GestureRecognizer.createFromOptions(vision, {
+          baseOptions: {
+            modelAssetPath:
+              "https://storage.googleapis.com/mediapipe-models/gesture_recognizer/gesture_recognizer/float16/1/gesture_recognizer.task"
+          },
+          runningMode: "VIDEO",
+          numHands: 1
+        });
+
+        status.textContent = "الحالة: جارٍ تشغيل الكاميرا...";
+
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: false
+        });
+
+        video.srcObject = stream;
+        await video.play();
+
+        running = true;
+        status.textContent = "الحالة: جاهز - ارفعي يدك أمام الكاميرا";
+        detectLoop();
+
+      } catch (e) {
+        console.error(e);
+        status.textContent = "الحالة: خطأ - " + e.message;
+        result.textContent = "تعذر بدء التعرف";
+        startBtn.disabled = false;
+      }
+    }
+
+    function detectLoop() {
+      if (!running) return;
+
+      if (video.currentTime !== lastTime) {
+        lastTime = video.currentTime;
+
+        const res = recognizer.recognizeForVideo(video, performance.now());
+
+        if (res.gestures && res.gestures.length > 0 && res.gestures[0].length > 0) {
+          const g = res.gestures[0][0];
+          const name = g.categoryName;
+          const score = Math.round((g.score || 0) * 100);
+
+          result.textContent = gestures[name] || ("إشارة: " + name);
+          status.textContent = "الحالة: تم التعرف بنسبة " + score + "%";
+        } else {
+          result.textContent = "لا توجد إشارة";
+          status.textContent = "الحالة: الكاميرا تعمل، لكن لم يتم اكتشاف إشارة بعد";
+        }
+      }
+
+      requestAnimationFrame(detectLoop);
+    }
+
+    startBtn.addEventListener("click", startApp);
+  </script>
 </body>
 </html>
